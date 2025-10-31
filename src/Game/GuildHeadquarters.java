@@ -5,9 +5,13 @@ import java.awt.*;
 
 public class GuildHeadquarters extends JPanel {
 
+    static public boolean isGetLicence = false;
+    
     public JButton backButton;
     public JButton getLicenceButton;
 
+    public GuildHeadquarters(){}
+    
     public GuildHeadquarters(Image guildImage, Image panelImage, Image buttonImage) {
         setPreferredSize(new Dimension(960, 720));
         setLayout(null);
