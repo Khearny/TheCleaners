@@ -32,6 +32,9 @@ public class PlayerData {
     //Set Health Value
     public void setPlayerHealth(int health){
         playerHealth += health;
+        if(playerHealth >= 100){
+            playerHealth = 100;
+        }
     }
     
     //Get Mana Value
@@ -42,6 +45,9 @@ public class PlayerData {
     //Set Mana Value
     public void setPlayerMana(int mana){
         playerMana += mana;
+        if(playerMana >= 100){
+            playerMana = 100;
+        }
     }
     
     //Get Happiness Value
@@ -53,6 +59,9 @@ public class PlayerData {
     //Set Happiness Value
     public void setPlayerHappiness(int happiness){
         playerHappiness += happiness;
+        if(playerHappiness >= 100){
+            playerHappiness = 100;
+        }
     }
     
     //Get Licence Bool

@@ -13,6 +13,8 @@ import javax.swing.SwingConstants;
 public class Tavern extends JPanel{
     
     public JButton backButton;
+    public JButton playGameButton;
+    public JButton drinkButton;
 
     public Tavern(Image tavernImage, Image panelImage, Image buttonImage) {
         setPreferredSize(new Dimension(960, 720));
@@ -32,8 +34,12 @@ public class Tavern extends JPanel{
 
 
         backButton = createButton("GO TO CITY =>", 625, 25, buttonImage);
+        drinkButton = createButton("DRINK (25 C)", 390, 25, buttonImage);
+        playGameButton = createButton("PLAY GAME (50 C)", 150, 25, buttonImage);
 
         downPanel.add(backButton);
+        downPanel.add(drinkButton);
+        downPanel.add(playGameButton);
         add(downPanel);
     }
     

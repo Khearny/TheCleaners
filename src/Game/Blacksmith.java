@@ -32,7 +32,7 @@ public class Blacksmith extends JPanel{
 
 
         backButton = createButton("GO TO CITY =>", 625, 25, buttonImage);
-        getEquipmetButton = createButton("GET EQUIPMENT", 150, 25, buttonImage);
+        getEquipmetButton = createButton("GET EQUIPMENT (200 C)", 150, 25, buttonImage);
 
         downPanel.add(backButton);
         downPanel.add(getEquipmetButton);

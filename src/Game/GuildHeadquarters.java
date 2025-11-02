@@ -32,8 +32,8 @@ public class GuildHeadquarters extends JPanel {
         
         //Scene Button
         backButton = createButton("GO TO CITY =>", 625, 25, buttonImage);
-        learnSkillsButton = createButton("LEARN SKILLS", 390, 25, buttonImage);
-        getLicenceButton = createButton("GET LICENCE", 150, 25, buttonImage);
+        learnSkillsButton = createButton("LEARN SKILLS (100 C)", 390, 25, buttonImage);
+        getLicenceButton = createButton("GET LICENCE (200 C)", 150, 25, buttonImage);
 
         //Add
         downPanel.add(backButton);

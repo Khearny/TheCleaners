@@ -8,12 +8,14 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
@@ -48,6 +50,7 @@ public class Frame extends JFrame{
         Image skills = new ImageIcon(getClass().getResource("/Game/Resources/Skills.png")).getImage();
         
     Frame(){
+        Random rand = new Random();
         PlayerData player = new PlayerData();
         
         // --- Setup Panels ---
@@ -80,31 +83,83 @@ public class Frame extends JFrame{
         tavernPanel.backButton.addActionListener(e -> cl.show(replaceablePanel, "Map"));
         
         guildPanel.getLicenceButton.addActionListener(e -> {
-            if(player.getIsGetLicence() == false){
+            if(player.getIsGetLicence() == false && player.getCoin() >= 200){
                 player.setCoin(-200);
                 sidePanel.coinText.setText(Integer.toString(PlayerData.playerCoin));
                 player.setIsGetLicence(true);
                 sidePanel.licenceTick.setVisible(true);
+                guildPanel.getLicenceButton.setVisible(false);
+                guildPanel.learnSkillsButton.setBounds(150, 25, guildPanel.learnSkillsButton.getWidth(), guildPanel.learnSkillsButton.getHeight());
+            }else{
+                JOptionPane.showMessageDialog(this, "YOU NEED COIN TO GET LICENCE");
             }
-            });
+        });
         
         guildPanel.learnSkillsButton.addActionListener(e -> {
-            if(player.getIsLearnSkill() == false){
+            if(player.getIsLearnSkill() == false && player.getCoin() >= 100){
                 player.setCoin(-100);
                 sidePanel.coinText.setText(Integer.toString(PlayerData.playerCoin));
                 player.setIsLearnSkill(true);
-               sidePanel.skillsTick.setVisible(true); 
+                sidePanel.skillsTick.setVisible(true); 
+                guildPanel.learnSkillsButton.setVisible(false);
+                guildPanel.backButton.setBounds(390, 25, guildPanel.backButton.getWidth(), guildPanel.backButton.getHeight());
+            }else{
+                JOptionPane.showMessageDialog(this, "YOU NEED COIN TO LEARN SKILLS");
             }
-            });
+        });
         
         blacksmithPanel.getEquipmetButton.addActionListener(e -> {
-            if(player.getIsGetEquipment() == false){
+            if(player.getIsGetEquipment() == false && player.getCoin() >= 200){
                 player.setCoin(-200);
                 sidePanel.coinText.setText(Integer.toString(PlayerData.playerCoin));
                 player.setIsGetEquipment(true);
                 sidePanel.equipmentTick.setVisible(true);
+                blacksmithPanel.getEquipmetButton.setVisible(false);
+                blacksmithPanel.backButton.setBounds(390, 25, blacksmithPanel.backButton.getWidth(), blacksmithPanel.backButton.getHeight());
+            }else{
+                JOptionPane.showMessageDialog(this, "YOU NEED COIN TO GET EQUIPMENT");
             }
-            });
+        });
+        
+        tavernPanel.drinkButton.addActionListener(e -> {
+            if(player.getCoin() >= 25){
+                player.setCoin(-25);
+                sidePanel.coinText.setText(Integer.toString(PlayerData.playerCoin));
+                player.setPlayerHealth(20);
+                player.setPlayerMana(20);
+                player.setPlayerHappiness(25);
+                
+                sidePanel.healthBar.setValue(PlayerData.playerHealth);
+                sidePanel.manaBar.setValue(PlayerData.playerMana);
+                sidePanel.happinessText.setText(Integer.toString(PlayerData.playerHappiness) + "%");
+            }else{
+                JOptionPane.showMessageDialog(this, "GET LOST!!!");
+            }
+        });
+        
+        tavernPanel.playGameButton.addActionListener(e -> {
+            if(player.getCoin() >= 50){
+                player.setCoin(-50);
+                sidePanel.coinText.setText(Integer.toString(PlayerData.playerCoin));
+                int randomNum = rand.nextInt(2);
+                
+                if(randomNum == 0){
+                    JOptionPane.showMessageDialog(this, "Haha... You lost 50 C!");
+                    player.setPlayerHappiness(5);
+                    sidePanel.happinessText.setText(Integer.toString(PlayerData.playerHappiness) + "%");
+                }
+                
+                if(randomNum == 1){
+                    JOptionPane.showMessageDialog(this, "Ahh... You won 100 C!");
+                    player.setCoin(100);
+                    sidePanel.coinText.setText(Integer.toString(PlayerData.playerCoin));
+                    player.setPlayerHappiness(-5);
+                    sidePanel.happinessText.setText(Integer.toString(PlayerData.playerHappiness) + "%");
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "NO MONEY, NO FUNNY");
+            }
+        });
 
         // --- Main Panel ---
         JPanel mainPanel = new JPanel(new BorderLayout());

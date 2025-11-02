@@ -26,7 +26,8 @@ public class CustomBar extends JPanel{
     }
 
     public void setValue(int newValue) {
-        this.value = Math.max(0, Math.min(100, newValue));
+        this.value = newValue;
+        this.targetValue = newValue;
         repaint();
     }
 

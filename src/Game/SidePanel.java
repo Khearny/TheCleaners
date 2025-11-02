@@ -6,7 +6,7 @@ import java.awt.*;
 public class SidePanel extends JPanel {
     
     public CustomBar healthBar;
-    public CustomBar manaBarFill;
+    public CustomBar manaBar;
     public JLabel licenceTick;
     public JLabel equipmentTick;
     public JLabel skillsTick;
@@ -94,13 +94,13 @@ public class SidePanel extends JPanel {
         healthBar.setBounds(40, 75, 225, 50);
         healthBar.setValue(PlayerData.playerHealth);
 
-        manaBarFill = new CustomBar(staminaFill, barBorder);
-        manaBarFill.setBounds(40, 160, 225, 50);    
-        manaBarFill.setValue(PlayerData.playerMana);
+        manaBar = new CustomBar(staminaFill, barBorder);
+        manaBar.setBounds(40, 160, 225, 50);
+        manaBar.setValue(PlayerData.playerMana);
 
         
         add(healthBar);
-        add(manaBarFill);
+        add(manaBar);
         add(licenceTick);
         add(equipmentTick);
         add(skillsTick);
