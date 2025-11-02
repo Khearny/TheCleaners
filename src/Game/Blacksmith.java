@@ -10,7 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class Blacksmith extends JPanel{
+    
     public JButton backButton;
+    public JButton getEquipmetButton;
 
     public Blacksmith(Image blacksmithImage, Image panelImage, Image buttonImage) {
         setPreferredSize(new Dimension(960, 720));
@@ -30,8 +32,10 @@ public class Blacksmith extends JPanel{
 
 
         backButton = createButton("GO TO CITY =>", 625, 25, buttonImage);
+        getEquipmetButton = createButton("GET EQUIPMENT", 150, 25, buttonImage);
 
         downPanel.add(backButton);
+        downPanel.add(getEquipmetButton);
         add(downPanel);
     }
     

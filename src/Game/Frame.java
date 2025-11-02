@@ -42,12 +42,17 @@ public class Frame extends JFrame{
         Image manaBarFill = new ImageIcon(getClass().getResource("/Game/Resources/ManaBarFill.png")).getImage();
         Image licence = new ImageIcon(getClass().getResource("/Game/Resources/Licence.png")).getImage();
         Image licenceTick = new ImageIcon(getClass().getResource("/Game/Resources/LicenceTick.png")).getImage();
+        Image coin = new ImageIcon(getClass().getResource("/Game/Resources/Coin.png")).getImage();
+        Image equipment = new ImageIcon(getClass().getResource("/Game/Resources/Equipment.png")).getImage();
+        Image happiness = new ImageIcon(getClass().getResource("/Game/Resources/Happiness.png")).getImage();
+        Image skills = new ImageIcon(getClass().getResource("/Game/Resources/Skills.png")).getImage();
         
     Frame(){
+        PlayerData player = new PlayerData();
         
         // --- Setup Panels ---
         Map mapPanel = new Map(map, button);
-        SidePanel sidePanel = new SidePanel(panel, barBorder, healthBarFill, manaBarFill, licence, licenceTick);
+        SidePanel sidePanel = new SidePanel(panel, barBorder, healthBarFill, manaBarFill, licence, licenceTick, coin, equipment, happiness, skills);
         GuildHeadquarters guildPanel = new GuildHeadquarters(guildHeadquarters, panel, button);
         Blacksmith blacksmithPanel = new Blacksmith(blacksmith, panel, button);
         Portal portalPanel = new Portal(portal, panel, button);
@@ -75,9 +80,30 @@ public class Frame extends JFrame{
         tavernPanel.backButton.addActionListener(e -> cl.show(replaceablePanel, "Map"));
         
         guildPanel.getLicenceButton.addActionListener(e -> {
-            GuildHeadquarters.isGetLicence = true;
-            sidePanel.licenceTick.setVisible(true);
-            System.out.println("You get a licence");
+            if(player.getIsGetLicence() == false){
+                player.setCoin(-200);
+                sidePanel.coinText.setText(Integer.toString(PlayerData.playerCoin));
+                player.setIsGetLicence(true);
+                sidePanel.licenceTick.setVisible(true);
+            }
+            });
+        
+        guildPanel.learnSkillsButton.addActionListener(e -> {
+            if(player.getIsLearnSkill() == false){
+                player.setCoin(-100);
+                sidePanel.coinText.setText(Integer.toString(PlayerData.playerCoin));
+                player.setIsLearnSkill(true);
+               sidePanel.skillsTick.setVisible(true); 
+            }
+            });
+        
+        blacksmithPanel.getEquipmetButton.addActionListener(e -> {
+            if(player.getIsGetEquipment() == false){
+                player.setCoin(-200);
+                sidePanel.coinText.setText(Integer.toString(PlayerData.playerCoin));
+                player.setIsGetEquipment(true);
+                sidePanel.equipmentTick.setVisible(true);
+            }
             });
 
         // --- Main Panel ---
