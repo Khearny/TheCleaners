@@ -37,6 +37,7 @@ public class Frame extends JFrame{
         Image blacksmith = new ImageIcon(getClass().getResource("/Game/Resources/Blacksmith.png")).getImage();
         Image portal = new ImageIcon(getClass().getResource("/Game/Resources/Portal.png")).getImage();
         Image tavern = new ImageIcon(getClass().getResource("/Game/Resources/Tavern.png")).getImage();
+        Image dungeon = new ImageIcon(getClass().getResource("/Game/Resources/Dungeon.png")).getImage();
         
         //Side Bar Image
         Image barBorder = new ImageIcon(getClass().getResource("/Game/Resources/BarBorder.png")).getImage();
@@ -49,9 +50,14 @@ public class Frame extends JFrame{
         Image happiness = new ImageIcon(getClass().getResource("/Game/Resources/Happiness.png")).getImage();
         Image skills = new ImageIcon(getClass().getResource("/Game/Resources/Skills.png")).getImage();
         
+        //Characters
+        Image player = new ImageIcon(getClass().getResource("/Game/Resources/Player.png")).getImage();
+        Image enemy = new ImageIcon(getClass().getResource("/Game/Resources/Enemy.png")).getImage();
+        
     Frame(){
         Random rand = new Random();
-        PlayerData player = new PlayerData();
+        PlayerData playerData = new PlayerData();
+        EnemyData enemyData = new EnemyData();
         
         // --- Setup Panels ---
         Map mapPanel = new Map(map, button);
@@ -60,6 +66,7 @@ public class Frame extends JFrame{
         Blacksmith blacksmithPanel = new Blacksmith(blacksmith, panel, button);
         Portal portalPanel = new Portal(portal, panel, button);
         Tavern tavernPanel = new Tavern(tavern, panel, button);
+        Dungeon dungeonPanel = new Dungeon(dungeon, panel, button, player, enemy, healthBarFill, barBorder);
 
         JPanel replaceablePanel = new JPanel(new CardLayout());
         replaceablePanel.add(mapPanel, "Map");
@@ -67,6 +74,7 @@ public class Frame extends JFrame{
         replaceablePanel.add(blacksmithPanel, "Blacksmith");
         replaceablePanel.add(portalPanel, "Portal");
         replaceablePanel.add(tavernPanel, "Tavern");
+        replaceablePanel.add(dungeonPanel, "Dungeon");
 
         CardLayout cl = (CardLayout) replaceablePanel.getLayout();
         cl.show(replaceablePanel, "Map");
@@ -77,16 +85,29 @@ public class Frame extends JFrame{
         mapPanel.portalButton.addActionListener(e -> cl.show(replaceablePanel, "Portal"));
         mapPanel.tavernButton.addActionListener(e -> cl.show(replaceablePanel, "Tavern"));
         
+        //Go Dungeon
+        portalPanel.dungeonButton.addActionListener(e -> {
+            if(playerData.getIsGetLicence() == true && playerData.getIsLearnSkill() == true && playerData.getIsLearnSkill() == true){
+                cl.show(replaceablePanel, "Dungeon");
+                dungeonPanel.enemyHealthBar.setValue(enemyData.getEnemyHealth());
+                enemyData.setEnemyDamage();
+                playerData.setPlayerHappiness(-10);
+                sidePanel.happinessText.setText(Integer.toString(playerData.playerHappiness));
+            }else{
+                JOptionPane.showMessageDialog(this, "GET YOUR LICENCE AND EQUIPMENT AND LEARN SKILLS");
+            }
+        });
+        
         guildPanel.backButton.addActionListener(e -> cl.show(replaceablePanel, "Map"));
         blacksmithPanel.backButton.addActionListener(e -> cl.show(replaceablePanel, "Map"));
         portalPanel.backButton.addActionListener(e -> cl.show(replaceablePanel, "Map"));
         tavernPanel.backButton.addActionListener(e -> cl.show(replaceablePanel, "Map"));
         
         guildPanel.getLicenceButton.addActionListener(e -> {
-            if(player.getIsGetLicence() == false && player.getCoin() >= 200){
-                player.setCoin(-200);
-                sidePanel.coinText.setText(Integer.toString(PlayerData.playerCoin));
-                player.setIsGetLicence(true);
+            if(playerData.getIsGetLicence() == false && playerData.getCoin() >= 200){
+                playerData.setCoin(-200);
+                sidePanel.coinText.setText(Integer.toString(playerData.playerCoin));
+                playerData.setIsGetLicence(true);
                 sidePanel.licenceTick.setVisible(true);
                 guildPanel.getLicenceButton.setVisible(false);
                 guildPanel.learnSkillsButton.setBounds(150, 25, guildPanel.learnSkillsButton.getWidth(), guildPanel.learnSkillsButton.getHeight());
@@ -96,10 +117,10 @@ public class Frame extends JFrame{
         });
         
         guildPanel.learnSkillsButton.addActionListener(e -> {
-            if(player.getIsLearnSkill() == false && player.getCoin() >= 100){
-                player.setCoin(-100);
-                sidePanel.coinText.setText(Integer.toString(PlayerData.playerCoin));
-                player.setIsLearnSkill(true);
+            if(playerData.getIsLearnSkill() == false && playerData.getCoin() >= 100){
+                playerData.setCoin(-100);
+                sidePanel.coinText.setText(Integer.toString(playerData.playerCoin));
+                playerData.setIsLearnSkill(true);
                 sidePanel.skillsTick.setVisible(true); 
                 guildPanel.learnSkillsButton.setVisible(false);
                 guildPanel.backButton.setBounds(390, 25, guildPanel.backButton.getWidth(), guildPanel.backButton.getHeight());
@@ -109,10 +130,10 @@ public class Frame extends JFrame{
         });
         
         blacksmithPanel.getEquipmetButton.addActionListener(e -> {
-            if(player.getIsGetEquipment() == false && player.getCoin() >= 200){
-                player.setCoin(-200);
-                sidePanel.coinText.setText(Integer.toString(PlayerData.playerCoin));
-                player.setIsGetEquipment(true);
+            if(playerData.getIsGetEquipment() == false && playerData.getCoin() >= 200){
+                playerData.setCoin(-200);
+                sidePanel.coinText.setText(Integer.toString(playerData.playerCoin));
+                playerData.setIsGetEquipment(true);
                 sidePanel.equipmentTick.setVisible(true);
                 blacksmithPanel.getEquipmetButton.setVisible(false);
                 blacksmithPanel.backButton.setBounds(390, 25, blacksmithPanel.backButton.getWidth(), blacksmithPanel.backButton.getHeight());
@@ -122,44 +143,166 @@ public class Frame extends JFrame{
         });
         
         tavernPanel.drinkButton.addActionListener(e -> {
-            if(player.getCoin() >= 25){
-                player.setCoin(-25);
-                sidePanel.coinText.setText(Integer.toString(PlayerData.playerCoin));
-                player.setPlayerHealth(20);
-                player.setPlayerMana(20);
-                player.setPlayerHappiness(25);
+            if(playerData.getCoin() >= 25){
+                playerData.setCoin(-25);
+                sidePanel.coinText.setText(Integer.toString(playerData.playerCoin));
+                playerData.setPlayerHealth(20);
+                playerData.setPlayerMana(20);
+                playerData.setPlayerHappiness(25);
                 
                 sidePanel.healthBar.setValue(PlayerData.playerHealth);
                 sidePanel.manaBar.setValue(PlayerData.playerMana);
-                sidePanel.happinessText.setText(Integer.toString(PlayerData.playerHappiness) + "%");
+                sidePanel.happinessText.setText(Integer.toString(playerData.playerHappiness) + "%");
             }else{
                 JOptionPane.showMessageDialog(this, "GET LOST!!!");
             }
         });
         
         tavernPanel.playGameButton.addActionListener(e -> {
-            if(player.getCoin() >= 50){
-                player.setCoin(-50);
-                sidePanel.coinText.setText(Integer.toString(PlayerData.playerCoin));
+            if(playerData.getCoin() >= 50){
+                playerData.setCoin(-50);
+                sidePanel.coinText.setText(Integer.toString(playerData.playerCoin));
                 int randomNum = rand.nextInt(2);
                 
                 if(randomNum == 0){
                     JOptionPane.showMessageDialog(this, "Haha... You lost 50 C!");
-                    player.setPlayerHappiness(5);
-                    sidePanel.happinessText.setText(Integer.toString(PlayerData.playerHappiness) + "%");
+                    playerData.setPlayerHappiness(-5);
+                    sidePanel.happinessText.setText(Integer.toString(playerData.playerHappiness) + "%");
                 }
                 
                 if(randomNum == 1){
                     JOptionPane.showMessageDialog(this, "Ahh... You won 100 C!");
-                    player.setCoin(100);
-                    sidePanel.coinText.setText(Integer.toString(PlayerData.playerCoin));
-                    player.setPlayerHappiness(-5);
-                    sidePanel.happinessText.setText(Integer.toString(PlayerData.playerHappiness) + "%");
+                    playerData.setCoin(100);
+                    sidePanel.coinText.setText(Integer.toString(playerData.playerCoin));
+                    playerData.setPlayerHappiness(5);
+                    sidePanel.happinessText.setText(Integer.toString(playerData.playerHappiness) + "%");
                 }
             }else{
                 JOptionPane.showMessageDialog(this, "NO MONEY, NO FUNNY");
             }
         });
+        
+        //Dungeon Fight Button Functions
+        dungeonPanel.swordAttackButton.addActionListener(e -> {
+            if(playerData.getPlayerMana() >= 20){
+                enemyData.setEnemyHealth(-20);
+                enemyData.setEnemyDamage();
+                dungeonPanel.enemyHealthBar.setValue(enemyData.getEnemyHealth());
+                playerData.setPlayerHealth(-enemyData.getEnemyDamage());
+                playerData.setPlayerMana(-20);
+                sidePanel.healthBar.setValue(playerData.getPlayerHealth());
+                sidePanel.manaBar.setValue(playerData.getPlayerMana());
+                JOptionPane.showMessageDialog(this, "YOU HIT 20 DAMAGE!! ENEMY HIT " + enemyData.getEnemyDamage() + " DAMAGE");
+            }else{
+                JOptionPane.showMessageDialog(this, "YOU DONT HAVE ENOUGH MANA!! USE OTHER SKILLS OR PASS");
+            }
+            
+            if(enemyData.getEnemyHealth() <= 0){
+                JOptionPane.showMessageDialog(this, "YOU KILLED ENEMY!! EARNED 300 C");
+                cl.show(replaceablePanel, "Map");
+                enemyData.setEnemyHealth(100);
+                playerData.setCoin(300);
+                
+                dungeonPanel.enemyHealthBar.setValue(enemyData.getEnemyHealth());
+                sidePanel.coinText.setText(Integer.toString(playerData.getCoin()));
+            }
+            
+            if(playerData.getPlayerHealth() <= 0){
+                JOptionPane.showMessageDialog(this, "YOU DEAD... TRY AGAIN");
+                dispose();
+                System.exit(0);
+            }
+        });
+        
+        dungeonPanel.voidAttackButton.addActionListener(e -> {
+            if(playerData.getPlayerMana() >= 40){
+                enemyData.setEnemyHealth(-40);
+                enemyData.setEnemyDamage();
+                dungeonPanel.enemyHealthBar.setValue(enemyData.getEnemyHealth());
+                playerData.setPlayerHealth(-enemyData.getEnemyDamage());
+                playerData.setPlayerMana(-40);
+                sidePanel.healthBar.setValue(playerData.getPlayerHealth());
+                sidePanel.manaBar.setValue(playerData.getPlayerMana());
+                JOptionPane.showMessageDialog(this, "YOU HIT 40 DAMAGE!! ENEMY HIT " + enemyData.getEnemyDamage() + " DAMAGE");
+            }else{
+                JOptionPane.showMessageDialog(this, "YOU DONT HAVE ENOUGH MANA!! USE OTHER SKILLS OR PASS");
+            }
+            
+            if(enemyData.getEnemyHealth() <= 0){
+                JOptionPane.showMessageDialog(this, "YOU KILLED ENEMY!! EARNED 300 C");
+                cl.show(replaceablePanel, "Map");
+                enemyData.setEnemyHealth(100);
+                playerData.setCoin(300);
+                
+                dungeonPanel.enemyHealthBar.setValue(enemyData.getEnemyHealth());
+                sidePanel.coinText.setText(Integer.toString(playerData.getCoin()));
+            }
+            
+            if(playerData.getPlayerHealth() <= 0){
+                JOptionPane.showMessageDialog(this, "YOU DEAD... TRY AGAIN");
+                dispose();
+                System.exit(0);
+            }
+        });
+        
+        dungeonPanel.shieldButton.addActionListener(e -> {
+            if(playerData.getPlayerMana() >= 10){
+                enemyData.setEnemyHealth(0);
+                enemyData.setEnemyDamage();
+                dungeonPanel.enemyHealthBar.setValue(enemyData.getEnemyHealth());
+                playerData.setPlayerHealth(15);
+                playerData.setPlayerMana(-10);
+                sidePanel.healthBar.setValue(playerData.getPlayerHealth());
+                sidePanel.manaBar.setValue(playerData.getPlayerMana());
+                JOptionPane.showMessageDialog(this, "YOU HIT 0 DAMAGE BUT YOU REGAIN 25 HP!! ENEMY HIT 0 DAMAGE BECAUSE YOU HAVE SHIELD");
+            }else{
+                JOptionPane.showMessageDialog(this, "YOU DONT HAVE ENOUGH MANA!! USE OTHER SKILLS OR PASS");
+            }
+            
+            if(enemyData.getEnemyHealth() <= 0){
+                JOptionPane.showMessageDialog(this, "YOU KILLED ENEMY!! EARNED 300 C");
+                cl.show(replaceablePanel, "Map");
+                enemyData.setEnemyHealth(100);
+                playerData.setCoin(300);
+                
+                dungeonPanel.enemyHealthBar.setValue(enemyData.getEnemyHealth());
+                sidePanel.coinText.setText(Integer.toString(playerData.getCoin()));
+            }
+            
+            if(playerData.getPlayerHealth() <= 0){
+                JOptionPane.showMessageDialog(this, "YOU DEAD... TRY AGAIN");
+                dispose();
+                System.exit(0);
+            }
+        });
+        
+        dungeonPanel.passButton.addActionListener(e -> {
+            enemyData.setEnemyHealth(0);
+            enemyData.setEnemyDamage();
+            dungeonPanel.enemyHealthBar.setValue(enemyData.getEnemyHealth());
+            playerData.setPlayerHealth(-enemyData.getEnemyDamage());
+            playerData.setPlayerMana(25);
+            sidePanel.healthBar.setValue(playerData.getPlayerHealth());
+            sidePanel.manaBar.setValue(playerData.getPlayerMana());
+            JOptionPane.showMessageDialog(this, "YOU HIT 0 DAMAGE BUT YOU REGAIN 25 MANA!! ENEMY HIT "+ enemyData.getEnemyDamage() + " DAMAGE");
+            
+            if(enemyData.getEnemyHealth() <= 0){
+                JOptionPane.showMessageDialog(this, "YOU KILLED ENEMY!! EARNED 300 C");
+                cl.show(replaceablePanel, "Map");
+                enemyData.setEnemyHealth(100);
+                playerData.setCoin(300);
+                
+                dungeonPanel.enemyHealthBar.setValue(enemyData.getEnemyHealth());
+                sidePanel.coinText.setText(Integer.toString(playerData.getCoin()));
+            }
+            
+            if(playerData.getPlayerHealth() <= 0){
+                JOptionPane.showMessageDialog(this, "YOU DEAD... TRY AGAIN");
+                dispose();
+                System.exit(0);
+            }
+        });
+
 
         // --- Main Panel ---
         JPanel mainPanel = new JPanel(new BorderLayout());

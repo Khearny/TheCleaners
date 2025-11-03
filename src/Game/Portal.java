@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 
 public class Portal extends JPanel{
     public JButton backButton;
+    public JButton dungeonButton;
 
     public Portal(Image portalImage, Image panelImage, Image buttonImage) {
         setPreferredSize(new Dimension(960, 720));
@@ -31,8 +32,10 @@ public class Portal extends JPanel{
 
 
         backButton = createButton("GO TO CITY =>", 625, 25, buttonImage);
+        dungeonButton = createButton("DUNGEON", 150, 25, buttonImage);
 
         downPanel.add(backButton);
+        downPanel.add(dungeonButton);
         add(downPanel);
     }
     

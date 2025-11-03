@@ -64,7 +64,7 @@ public class SidePanel extends JPanel {
         coinText.setFont(new Font("Serif", Font.BOLD, 36));
         coinText.setBounds(150, 555, 250, 30);
         
-        happinessText = new JLabel(Integer.toString(PlayerData.playerHappiness));
+        happinessText = new JLabel(Integer.toString(PlayerData.playerHappiness) + "%");
         happinessText.setForeground(Color.WHITE);
         happinessText.setFont(new Font("Serif", Font.BOLD, 36));
         happinessText.setBounds(110, 455, 250, 30);
