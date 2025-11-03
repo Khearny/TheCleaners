@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class SidePanel extends JPanel {
     
+    //Buttons and Bars
     public CustomBar healthBar;
     public CustomBar manaBar;
     public JLabel licenceTick;
@@ -13,6 +14,7 @@ public class SidePanel extends JPanel {
     public JLabel coinText;
     public JLabel happinessText;
 
+    //Panel
     public SidePanel(Image panelImage, Image barBorder, Image healthFill, Image staminaFill, Image licenceImage, Image tickImage, Image coinImage, Image equipmentImage, Image happinessImage, Image skillsImage) {
         setPreferredSize(new Dimension(320, 720));
         setOpaque(false);
@@ -98,7 +100,7 @@ public class SidePanel extends JPanel {
         manaBar.setBounds(40, 160, 225, 50);
         manaBar.setValue(PlayerData.playerMana);
 
-        
+        //Adding Comps
         add(healthBar);
         add(manaBar);
         add(licenceTick);
@@ -118,6 +120,7 @@ public class SidePanel extends JPanel {
 
     private Image panelImage;
 
+    //Draaw
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

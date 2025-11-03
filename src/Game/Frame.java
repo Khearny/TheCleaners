@@ -98,11 +98,14 @@ public class Frame extends JFrame{
             }
         });
         
+        
+        //Back Buttons
         guildPanel.backButton.addActionListener(e -> cl.show(replaceablePanel, "Map"));
         blacksmithPanel.backButton.addActionListener(e -> cl.show(replaceablePanel, "Map"));
         portalPanel.backButton.addActionListener(e -> cl.show(replaceablePanel, "Map"));
         tavernPanel.backButton.addActionListener(e -> cl.show(replaceablePanel, "Map"));
         
+        //Game Logical Buttons
         guildPanel.getLicenceButton.addActionListener(e -> {
             if(playerData.getIsGetLicence() == false && playerData.getCoin() >= 200){
                 playerData.setCoin(-200);

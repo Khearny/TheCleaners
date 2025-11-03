@@ -7,11 +7,13 @@ import java.awt.event.ActionListener;
 
 public class Map extends JPanel{
     
+    //Buttons
     public JButton guildHeadquartersButton;
     public JButton blacksmithButton;
     public JButton tavernButton;
     public JButton portalButton;
     
+    //Panel
     public Map(Image map, Image buttonImage) {
         setPreferredSize(new Dimension(960, 720));
         setLayout(null);
@@ -34,6 +36,7 @@ public class Map extends JPanel{
     private Image mapImage;
     private Image buttonImage;
     
+    //Button Creation Method
     private JButton createButton(String text, int x, int y) {
         JButton btn = new JButton(text);
         btn.setBounds(x, y, 200, 50);
@@ -46,6 +49,7 @@ public class Map extends JPanel{
         return btn;
     }
 
+    //Draw
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

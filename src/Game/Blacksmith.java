@@ -11,15 +11,18 @@ import javax.swing.SwingConstants;
 
 public class Blacksmith extends JPanel{
     
+    //Buttons
     public JButton backButton;
     public JButton getEquipmetButton;
 
+    //Panel
     public Blacksmith(Image blacksmithImage, Image panelImage, Image buttonImage) {
         setPreferredSize(new Dimension(960, 720));
         setLayout(null);
         setOpaque(false);
         this.blacksmithImage = blacksmithImage;
-
+        
+        //Down Panel
         JPanel downPanel = new JPanel() {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -30,15 +33,17 @@ public class Blacksmith extends JPanel{
         downPanel.setOpaque(false);
         downPanel.setLayout(null);
 
-
+        //Button Creation
         backButton = createButton("GO TO CITY =>", 625, 25, buttonImage);
         getEquipmetButton = createButton("GET EQUIPMENT (200 C)", 150, 25, buttonImage);
 
+        //Adding Comp
         downPanel.add(backButton);
         downPanel.add(getEquipmetButton);
         add(downPanel);
     }
     
+    //Button Creation Method
     private JButton createButton(String text, int x, int y, Image buttonImage) {
         JButton btn = new JButton(text);
         btn.setBounds(x, y, 200, 50);

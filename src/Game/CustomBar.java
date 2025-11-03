@@ -8,10 +8,13 @@ public class CustomBar extends JPanel{
     private int value = 100;
     private Image fillImage;
     private Image borderImage;
+    //Animation Values
     private int currentValue = 100; 
     private int targetValue = 100; 
+    // Timer For Smooth Animation
     private Timer timer;
 
+    // Constructor sets images and starts animation
     public CustomBar(Image fillImage, Image borderImage) {
         this.fillImage = fillImage;
         this.borderImage = borderImage;
@@ -25,16 +28,19 @@ public class CustomBar extends JPanel{
         timer.start();
     }
 
+    // Set new target value
     public void setValue(int newValue) {
         this.value = newValue;
         this.targetValue = newValue;
         repaint();
     }
 
+    // Set new target value
     public int getValue() {
         return value;
     }
 
+    //Draw
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

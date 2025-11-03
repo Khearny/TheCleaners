@@ -11,9 +11,12 @@ import javax.swing.SwingConstants;
 
 
 public class Portal extends JPanel{
+    
+    //Buttons
     public JButton backButton;
     public JButton dungeonButton;
 
+    //Panel
     public Portal(Image portalImage, Image panelImage, Image buttonImage) {
         setPreferredSize(new Dimension(960, 720));
         setLayout(null);
@@ -39,6 +42,7 @@ public class Portal extends JPanel{
         add(downPanel);
     }
     
+    //Button Creation Method
     private JButton createButton(String text, int x, int y, Image buttonImage) {
         JButton btn = new JButton(text);
         btn.setBounds(x, y, 200, 50);
@@ -53,6 +57,7 @@ public class Portal extends JPanel{
 
     private Image portalImage;
     
+    //Draw
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
