@@ -8,8 +8,8 @@ import java.sql.Statement;
 
 public class Database {
     
-    private static final String DB_URL = "jdbc:derby:gameDB;create=true";
-
+    private static final String DB_URL = "jdbc:derby:" + System.getProperty("user.dir") + "/gameDB;create=true";
+    
     // Initialize the database and create tables if they don't exist
     public static void init() {
         try {
