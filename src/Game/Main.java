@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class Main extends JFrame{
-    public static boolean isAlive = true;
 
     public static void main(String[] args) {
         PlayerData playerData = new PlayerData();
