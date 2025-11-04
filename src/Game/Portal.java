@@ -37,6 +37,7 @@ public class Portal extends JPanel{
         backButton = createButton("GO TO CITY =>", 625, 25, buttonImage);
         dungeonButton = createButton("DUNGEON", 150, 25, buttonImage);
 
+        //Add Comp
         downPanel.add(backButton);
         downPanel.add(dungeonButton);
         add(downPanel);

@@ -11,12 +11,14 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class Dungeon extends JPanel{
+    //Buttons and Bars
     public CustomBar enemyHealthBar;
     public JButton swordAttackButton;
     public JButton voidAttackButton;
     public JButton shieldButton;
     public JButton passButton;
     
+    //Dungeon Frame
     public Dungeon(Image dungeonImage, Image panelImage, Image buttonImage, Image playerImage, Image enemyImage, Image healthFill, Image barBorder){
         setPreferredSize(new Dimension(960, 720));
         setLayout(null);
@@ -55,6 +57,7 @@ public class Dungeon extends JPanel{
         shieldButton = createButton("SHIELD [25HP] [-10M]", 500, 25, buttonImage);
         passButton = createButton("PASS [+25M]", 700, 25, buttonImage);
         
+        //Add Comp
         downPanel.add(swordAttackButton);
         downPanel.add(voidAttackButton);
         downPanel.add(shieldButton);
@@ -65,6 +68,7 @@ public class Dungeon extends JPanel{
         add(enemy);
     }
     
+    //Button Creation Method
     private JButton createButton(String text, int x, int y, Image buttonImage) {
         JButton btn = new JButton(text);
         btn.setBounds(x, y, 200, 50);
@@ -79,6 +83,7 @@ public class Dungeon extends JPanel{
     
     private Image dungeonImage;
     
+    //Draw
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

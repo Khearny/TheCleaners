@@ -9,6 +9,7 @@ public class LoginScreen extends JFrame {
     private JPasswordField passwordField;
     private boolean loginSuccessful = false;
 
+    //Login Screen Frame
     public LoginScreen() {
         setTitle("Login Screen");
         setSize(300, 200);
